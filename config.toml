@@ -2,6 +2,13 @@ baseURL = 'https://kazuk.github.io/kazuk.log/'
 languageCode = 'ja-jp'
 title = 'kazuk のメモ書き'
 theme = "hugo-xmin"
+DefaultContentLanguage="ja"
+disableRSS     = true
+disableSitemap = true
+disable404     = true
+
+[author]
+  name = "Kazuhiko Kikuchi"
 
 [[menu.main]]
     name = "Home"
