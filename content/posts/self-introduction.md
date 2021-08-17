@@ -2,7 +2,7 @@
 title: "自己紹介のような物"
 date: 2021-08-17T11:13:45+09:00
 draft: false
-categoly: ["enginieer-life"]
+categories: ["enginieer-life"]
 tags: ["self-introduction"]
 ---
 

@@ -25,6 +25,10 @@ disable404     = true
     url = "tags/"
     weight = 4
 
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
 [params]
 description = "A website built through Hugo and blogdown."
 footer = "&copy; [kazuk](https://github.com/kazuk) 2017 -- 2020 | [Twitter](https://twitter.com/kazuk)"
