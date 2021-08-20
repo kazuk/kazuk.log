@@ -6,8 +6,6 @@ categories: ["WASM"]
 tags: ["rust", "wasm", "web-frontend", "SPA", "yew" ]
 ---
 
-# Rust で Web Front-end な SPA WASM を作るなら Yew が良い
-
  個人の感想ですが。
 
  公式ドキュメント [Yew](https://yew.rs/ja/) APIドキュメント [docs.rs:yew](https://docs.rs/yew/latest)

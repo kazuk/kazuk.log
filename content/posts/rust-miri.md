@@ -6,8 +6,6 @@ categories: ["testing"]
 tags: ["rust", "miri", "unsafe"]
 ---
 
-# Rust の中間言語インタープリタ MIRI による検証
-
 Rust の中間言語は [MIR](https://github.com/rust-lang/rfcs/blob/master/text/1211-mir.md) と呼ばれます。
 
 この中間言語コードを実行するインタープリタが [MIRI](https://github.com/rust-lang/miri) です。

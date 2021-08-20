@@ -6,8 +6,6 @@ categories: ["enginieer-life"]
 tags: ["self-introduction"]
 ---
 
-# 自己紹介のような物
-
 晒しすぎない程度に自己紹介
 
 - 1972年産まれ、もうじき50歳
