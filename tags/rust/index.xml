@@ -1,4 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>rust on kazuk のメモ書き</title><link>https://kazuk.github.io/kazuk.log/tags/rust/</link><description>Recent content in rust on kazuk のメモ書き</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Tue, 17 Aug 2021 12:05:47 +0900</lastBuildDate><atom:link href="https://kazuk.github.io/kazuk.log/tags/rust/index.xml" rel="self" type="application/rss+xml"/><item><title>Rust で Web Front-end な WASM を作るなら Yew が良い</title><link>https://kazuk.github.io/kazuk.log/posts/yew-rs/</link><pubDate>Tue, 17 Aug 2021 12:05:47 +0900</pubDate><guid>https://kazuk.github.io/kazuk.log/posts/yew-rs/</guid><description>Rust で Web Front-end な SPA WASM を作るなら Yew が良い 個人の感想ですが。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>rust on kazuk のメモ書き</title><link>https://kazuk.github.io/kazuk.log/tags/rust/</link><description>Recent content in rust on kazuk のメモ書き</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Fri, 20 Aug 2021 13:40:47 +0900</lastBuildDate><atom:link href="https://kazuk.github.io/kazuk.log/tags/rust/index.xml" rel="self" type="application/rss+xml"/><item><title>Rust の中間言語インタープリタ MIRI による検証</title><link>https://kazuk.github.io/kazuk.log/posts/rust-miri/</link><pubDate>Fri, 20 Aug 2021 13:40:47 +0900</pubDate><guid>https://kazuk.github.io/kazuk.log/posts/rust-miri/</guid><description>Rust の中間言語インタープリタ MIRI による検証 Rust の中間言語は MIR と呼ばれます。
+この中間言語コードを実行するインタープリタが MIRI です。
+インタープリタ実行の為、多少低速ではありますが、コンパイルされたバイナリを実行する時にはできない諸々の検証が行える為、ライブラリの利用方法の誤りや、unsafe コードを含む rust コードに誤りが無いかを確認できます。unsafe コードの動作に問題が無いか確認できるという点で unsafe コードを含むコードを開発している場合には MIRI の利用は強く推奨できます。
+「unsafe コード書いて MIRI 回してないってホント大丈夫？」
+って言うレベルで unsafe コードを書いているなら必須です。
+なので何らか重要なライブラリやフレームワークの導入時にソースを clone してきて回してみるぐらいはした方が良いかなと思います。
+MIRI の導入 MIRI を導入するのは比較的簡単で nightly ツールチェインに対して miri を追加するだけでセットアップできますす。
+$ rustup +nightly component add miri MIRI の実行 既存のテストを MIRI で実行するには cargo +nightly miri test で行います。
+$ cargo +nightly miri test MIRI で検出したエラーへの対処 この部分が MIRI の弱さではありますが、エラーログとライブラリのドキュメントその他を熟読して何故エラーとして報告されるのかを確認するしかありません。
+unsafe となっているライブラリメソッドには概ね Safety についての解説がありますので、呼び出している unsafe メソッドの Safety についての解説を確認しましょう。</description></item><item><title>Rust で Web Front-end な WASM を作るなら Yew が良い</title><link>https://kazuk.github.io/kazuk.log/posts/yew-rs/</link><pubDate>Tue, 17 Aug 2021 12:05:47 +0900</pubDate><guid>https://kazuk.github.io/kazuk.log/posts/yew-rs/</guid><description>Rust で Web Front-end な SPA WASM を作るなら Yew が良い 個人の感想ですが。
 公式ドキュメント Yew APIドキュメント docs.rs:yew
 ドキュメントの Introduction から Getting Started で十分に始められる様な気がします。
 このページにはハマった事や調べた事とかあれば随時書こうと思います。</description></item></channel></rss>
