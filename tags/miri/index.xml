@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>miri on kazuk のメモ書き</title><link>https://kazuk.github.io/kazuk.log/tags/miri/</link><description>Recent content in miri on kazuk のメモ書き</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Fri, 20 Aug 2021 13:40:47 +0900</lastBuildDate><atom:link href="https://kazuk.github.io/kazuk.log/tags/miri/index.xml" rel="self" type="application/rss+xml"/><item><title>Rust の中間言語インタープリタ MIRI による検証</title><link>https://kazuk.github.io/kazuk.log/posts/rust-miri/</link><pubDate>Fri, 20 Aug 2021 13:40:47 +0900</pubDate><guid>https://kazuk.github.io/kazuk.log/posts/rust-miri/</guid><description>Rust の中間言語インタープリタ MIRI による検証 Rust の中間言語は MIR と呼ばれます。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>miri on kazuk のメモ書き</title><link>https://kazuk.github.io/kazuk.log/tags/miri/</link><description>Recent content in miri on kazuk のメモ書き</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Fri, 20 Aug 2021 13:40:47 +0900</lastBuildDate><atom:link href="https://kazuk.github.io/kazuk.log/tags/miri/index.xml" rel="self" type="application/rss+xml"/><item><title>Rust の中間言語インタープリタ MIRI による検証</title><link>https://kazuk.github.io/kazuk.log/posts/rust-miri/</link><pubDate>Fri, 20 Aug 2021 13:40:47 +0900</pubDate><guid>https://kazuk.github.io/kazuk.log/posts/rust-miri/</guid><description>Rust の中間言語は MIR と呼ばれます。
 この中間言語コードを実行するインタープリタが MIRI です。
 インタープリタ実行の為、多少低速ではありますが、コンパイルされたバイナリを実行する時にはできない諸々の検証が行える為、ライブラリの利用方法の誤りや、unsafe コードを含む rust コードに誤りが無いかを確認できます。unsafe コードの動作に問題が無いか確認できるという点で unsafe コードを含むコードを開発している場合には MIRI の利用は強く推奨できます。
 「unsafe コード書いて MIRI 回してないってホント大丈夫？」
@@ -7,4 +7,6 @@
 MIRI の導入 MIRI を導入するのは比較的簡単で nightly ツールチェインに対して miri を追加するだけでセットアップできますす。
 $ rustup +nightly component add miri MIRI の実行 既存のテストを MIRI で実行するには cargo +nightly miri test で行います。
 $ cargo +nightly miri test MIRI で検出したエラーへの対処 この部分が MIRI の弱さではありますが、エラーログとライブラリのドキュメントその他を熟読して何故エラーとして報告されるのかを確認するしかありません。
-unsafe となっているライブラリメソッドには概ね Safety についての解説がありますので、呼び出している unsafe メソッドの Safety についての解説を確認しましょう。</description></item></channel></rss>
+unsafe となっているライブラリメソッドには概ね Safety についての解説がありますので、呼び出している unsafe メソッドの Safety についての解説を確認しましょう。
+とりあえずエラーを開発者に一報した上でソースとライブラリドキュメントを読み込んで開発者と一緒に問題をクリアしていけると良いですね。
+自分が見つけた MIRI エラー 何か見つける毎に追記していこうと思います。</description></item></channel></rss>
