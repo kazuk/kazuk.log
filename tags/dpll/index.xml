@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DPLL on kazuk のメモ書き</title><link>https://kazuk.github.io/kazuk.log/tags/dpll/</link><description>Recent content in DPLL on kazuk のメモ書き</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Sun, 05 Sep 2021 10:29:37 +0900</lastBuildDate><atom:link href="https://kazuk.github.io/kazuk.log/tags/dpll/index.xml" rel="self" type="application/rss+xml"/><item><title>DPLL SAT Solver を自作した</title><link>https://kazuk.github.io/kazuk.log/posts/dpll-sat-solver/</link><pubDate>Sun, 05 Sep 2021 10:29:37 +0900</pubDate><guid>https://kazuk.github.io/kazuk.log/posts/dpll-sat-solver/</guid><description>というわけで。（どんなわけで）
+DPLL アルゴリズムを使った SAT Solver を自作した。
+kazuk/pico-sat
+DIMACS とかその辺のサポートをしてない非常に素朴な実装。
+SAT Solver に対しての入力になる論理式をこねくり回すロジックは現状実装途中の書きかけ。
+DPLL アルゴリズム 世の中のSATソルバーの殆どはこのアルゴリズムないし、その改善型を使っているらしいので利用アルゴリズムとして選定した。
+DPLLアルゴリズム DPLLアルゴリズムの実装は rust で「素朴」に書くぶんには 200LoC以下に収まるサイズで実装できた。VecとHashSetにほぼほぼ必要な物はあるので組み合わせるだけである。
+現状実装では再帰を使っているので問題の規模によってはスタックオーバーフローで落ちるだろうし、複数スレッド化したりメモリ利用を抑え込んだり効率的なバックトラックをしようとするとドンドンデカくなるのは容易に想像が付くのであくまで「素朴」な実装での規模感である。
+特に工夫のない DPLL SAT Solver なので現状では「なんの工夫もされてないオンボロの性能」のプロファイリングリファレンスとしてしか使えないと思う。
+DPLLアルゴリズムには、２点ヒューリスティックな部分があり、そこにどんな方針を立てて実装しているかは以下
+分割規則の適用時における分割位置の選択
+分割規則の適用時には、分割位置として選択したリテラルがすべて消えるこのため「消えるのが多い方が嬉しいはず」という事で出現回数が最も多い変数を分割位置として選定している。
+分割規則で分割後に分割で利用した変数を真と仮定した枝と、偽と仮定した枝のどちらを優先して探索するか
+単一の解答が欲しい solve_one では SAT / UNSATどちらにしても「小さい枝を処理した方が答えが早くでるだろう」という事で小さい枝を優先して探索するようにしている。 すべての解答が欲しい solve_all ではどっちにしても両方処理するので真、偽の順で固定している。
+論理式の連言標準形への変換 SAT Solver の入力となる論理式は、連言標準形である必要があり、連言標準形は和積標準形のため、式の木構造としては以下のような構造になる必要がある。
+- OR - AND - 変項 - NOT 変項 この様な論理式を利用するアプリケーションが直接作り出すのは結構厄介なのは目に見えているので、割と普通の論理式の形で入力ができるようにしたい。
+現状実装途中なので、方針が変わる可能性はあるが、以下が現状の実装方針。
+Not 配下の OR、Not 配下の AND のノードに対してド・モルガンの法則を適用すると OR が Not AND Not の形になり、ANDの上のNot は元々存在した Not と二重否定になり消え Not が一つ下の階層に移動する。これを繰り返し適用すると、最下層に変項ないし、Not変項が配置される。</description></item></channel></rss>
