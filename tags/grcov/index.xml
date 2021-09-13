@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>grcov on kazuk のメモ書き</title><link>https://kazuk.github.io/kazuk.log/tags/grcov/</link><description>Recent content in grcov on kazuk のメモ書き</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Mon, 13 Sep 2021 09:10:15 +0900</lastBuildDate><atom:link href="https://kazuk.github.io/kazuk.log/tags/grcov/index.xml" rel="self" type="application/rss+xml"/><item><title>RustプログラムのCoverageをGRCOVで取得する</title><link>https://kazuk.github.io/kazuk.log/posts/rust-grcov-coverage/</link><pubDate>Mon, 13 Sep 2021 09:10:15 +0900</pubDate><guid>https://kazuk.github.io/kazuk.log/posts/rust-grcov-coverage/</guid><description>rust は単体テストの実行等は cargo に統合されていて非常に扱い安いのですが、カバレッジの取得や確認は統合されていません。
+また、カバレッジの取得には nightly コンパイラが必要になる等ちょっとした要件があります。
+プロジェクトにカバレッジの取得を追加する度に毎度google検索していたりするので、これを一旦まとめておきます。
+カバレッジの取得に必要な物 grcov
+プロファイラ出力されたカバレッジ情報の集約や変換等を行います。 cargo install grcov でインストールする事ができます。
+llvm-tools-preview
+grcov が依存しています。 rustup component and llvm-tools-preview でインストールします。
+Nightly rust
+プロファイラの為のコンパイルオプションは現状 Nightly rust コンパイラでのみサポートされています。
+rustup toolchain install nightly でインストールします。
+Nightlyコンパイラは名前の通り毎晩リリースされ「稀に壊れます」何かうまく行かない等がある場合には rustup update でより新しいバージョンを取得してくる、Nightly の最新でうまく行かない場合等は日付指定での Nightly コンパイラへ入れ替える等をしてくる必要があります。 そういう場合には Working with nightly Rust を参考にして下さい。
+カバレッジ取得の流れ カバレッジの取得はカバレッジプロファイリングオプションを付けてターゲットをコンパイルする、テストを実行しカバレッジ情報を取得する。 grcov でソースとカバレッジ情報を統合する流れになります。
+カバレッジプロファイル指定でのビルド プロファイリングオプションを付けてビルドするには基本的には RUSTFLAGS を指定して cargo build するだけです。nightly コンパイラを使うのを考慮すると以下になります。
+CARGO_INCREMENTAL=0, RUSTFLAGS=&amp;#34;-Zinstrument-coverage -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off&amp;#34; cargo +nightly build インクリメンタルビルドの抑止はオプション違いのバイナリがビルドディレクトリ内で混ざるのを防ぐ為に必要です。</description></item></channel></rss>
