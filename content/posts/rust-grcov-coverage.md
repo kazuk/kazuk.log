@@ -119,4 +119,3 @@ RUSTUP_TOOLCHAIN="nightly" grcov ./target/cover/debug/deps/profraw/ -b ./target/
 vscode の場合には [Code Coverage Highlighter](https://marketplace.visualstudio.com/items?itemName=brainfit.vscode-coverage-highlighter) が良いかなと思いました。 [Code Coverage](https://marketplace.visualstudio.com/items?itemName=markis.code-coverage) としか比較していませんが、uncover を suggestion に上げて来られるのはちょっとうっとおしすぎるので色分けが見れるぐらいがちょうど良いと思います。
 
 拡張機能の設定で生成されたカバレッジ情報を読み込むように指定するだけで、テストでカバーされている行とそうでない行が色分け表示されます。
-
