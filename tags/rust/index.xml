@@ -1,17 +1,35 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>rust on kazuk のメモ書き</title><link>https://kazuk.github.io/kazuk.log/tags/rust/</link><description>Recent content in rust on kazuk のメモ書き</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Mon, 13 Sep 2021 09:10:15 +0900</lastBuildDate><atom:link href="https://kazuk.github.io/kazuk.log/tags/rust/index.xml" rel="self" type="application/rss+xml"/><item><title>RustプログラムのCoverageをGRCOVで取得する</title><link>https://kazuk.github.io/kazuk.log/posts/rust-grcov-coverage/</link><pubDate>Mon, 13 Sep 2021 09:10:15 +0900</pubDate><guid>https://kazuk.github.io/kazuk.log/posts/rust-grcov-coverage/</guid><description>rust は単体テストの実行等は cargo に統合されていて非常に扱い安いのですが、カバレッジの取得や確認は統合されていません。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>rust on kazuk のメモ書き</title><link>https://kazuk.github.io/kazuk.log/tags/rust/</link><description>Recent content in rust on kazuk のメモ書き</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Fri, 17 Sep 2021 14:45:42 +0900</lastBuildDate><atom:link href="https://kazuk.github.io/kazuk.log/tags/rust/index.xml" rel="self" type="application/rss+xml"/><item><title>Rust アプリケーションの性能管理とパフォーマンスチューニング</title><link>https://kazuk.github.io/kazuk.log/posts/rust-perf-tuning/</link><pubDate>Fri, 17 Sep 2021 14:45:42 +0900</pubDate><guid>https://kazuk.github.io/kazuk.log/posts/rust-perf-tuning/</guid><description>Rust は基本的にはネイティブなコードを吐き出すし、C/C++と同等な性能の出るプログラミング言語と言われています。
+しかし、性能について全く考慮する必要の無いプログラムというのは無いですし、処理の追加や変更での性能変化特に処理性能が下がる事はパフォーマンスデグレードという事でアルゴリズムの変更時等にパフォーマンスの変化は追い続ける必要があります。
+パフォーマンスが期待値まで出ていない場合にはパフォーマンスチューニングをする事になります
+性能計測 性能計測と大きめの題目を上げていますが、これは本当に難しい問題を内在しています。
+性能計測環境のハードウェア、ソフトウェアは適切に管理されていなければなりません。特に性能管理（パフォーマンストラッキング）をする場合にはアプリケーションの変更での性能変化を検出する必要があり、ハードウェア構成やソフトウェア構成の異なる環境での結果と比較しても意味がありません。
+性能計測環境の維持管理が困難な問題の場合、別のアプローチもありえます。git 等のソース管理ツールがちゃんと利用されていれば、最新のハードウェア、ソフトウェアで過去のバージョンから現在のバージョンまで一連をビルドしてベンチマークしてみる事はできます。
+そして、最近のPC(に使われているCPUやGPU)は排熱処理の問題から、短期的な性能変動がかなり大きいです。ベンチマークを繰り返し実行して安定点をさぐろうとしているうちにPCが熱をもってしまって性能だだ下がりとか、夏場は明らかにベンチ結果が低いとかあります。
+性能計測をちゃんとやろうとすると、ハードウェアやソフトウェア、気温その他色々な事に気を配る必要があって大変だという事は理解してもらったと思います。その上でこの先の記述では全部無視します。
+適切に管理されたパフォーマンストラッキングもアプリケーションによっては必要ですが、「開発者が開発環境内でパフォーマンス変化を確認したりそれを元に遅くなってるから改善しなきゃと気付ける」のも必要で、どちらかというと後者寄りで利用するツールその他を解説していきます。（前者を求めている人は頑張って）
+ベンチマークの作成と実行 Rust のパッケージマネージャでありビルドツールであり、標準タスクランナーであり(ほんとなんでも出来るな)の cargo にはベンチマークを実行する機能があります。
+cargo-bench : The Cargo Book
+しかし、cargo bench で実行されるベンチマークの記述には Nightly channel が必要になるなど若干どころではない課題があります。
+特にベンチマーク結果を元に性能管理をしようとした場合、 「Nightly コンパイラでのコンパイル結果を Nightly ランタイムで動かしたベンチマーク計測して意味あるの？出荷物はStableでコンパイルするんだよね？」という問題にぶつかります。
+前述の cargo-bench のページでも紹介されていますが、 criterion を利用する事で cargo bench で実行可能なベンチマークを Stable channel でビルド実行する事が可能です。
+また、criterion は計測するだけでなくベースラインと性能を比較する機能もある為、性能管理もある程度サポートされます。
+Getting Started: Criterion.rs Documentation通りで基本的には何の問題もありません。
+dev-dependencies に criterion を追加する
+$ cargo add --dev criterion
+benches 配下にベンチマークを作成し cargo.toml に追加する
+cargo bench で実行する</description></item><item><title>RustプログラムのCoverageをGRCOVで取得する</title><link>https://kazuk.github.io/kazuk.log/posts/rust-grcov-coverage/</link><pubDate>Mon, 13 Sep 2021 09:10:15 +0900</pubDate><guid>https://kazuk.github.io/kazuk.log/posts/rust-grcov-coverage/</guid><description>rust は単体テストの実行等は cargo に統合されていて非常に扱い安いのですが、カバレッジの取得や確認は統合されていません。
 また、カバレッジの取得には nightly コンパイラが必要になる等ちょっとした要件があります。
 プロジェクトにカバレッジの取得を追加する度に毎度google検索していたりするので、これを一旦まとめておきます。
 カバレッジの取得に必要な物 grcov
 プロファイラ出力されたカバレッジ情報の集約や変換等を行います。 cargo install grcov でインストールする事ができます。
 llvm-tools-preview
 grcov が依存しています。 rustup component and llvm-tools-preview でインストールします。
-Nightly rust
+Stable rust (rust 1.60 より stable rust でもカバレッジの採取が可能になりました。) ~~ Nightly rust ~~
 プロファイラの為のコンパイルオプションは現状 Nightly rust コンパイラでのみサポートされています。
 rustup toolchain install nightly でインストールします。
 Nightlyコンパイラは名前の通り毎晩リリースされ「稀に壊れます」何かうまく行かない等がある場合には rustup update でより新しいバージョンを取得してくる、Nightly の最新でうまく行かない場合等は日付指定での Nightly コンパイラへ入れ替える等をしてくる必要があります。 そういう場合には Working with nightly Rust を参考にして下さい。
 カバレッジ取得の流れ カバレッジの取得はカバレッジプロファイリングオプションを付けてターゲットをコンパイルする、テストを実行しカバレッジ情報を取得する。 grcov でソースとカバレッジ情報を統合する流れになります。
-カバレッジプロファイル指定でのビルド プロファイリングオプションを付けてビルドするには基本的には RUSTFLAGS を指定して cargo build するだけです。nightly コンパイラを使うのを考慮すると以下になります。
-CARGO_INCREMENTAL=0, RUSTFLAGS=&amp;#34;-Zinstrument-coverage -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off&amp;#34; cargo +nightly build インクリメンタルビルドの抑止はオプション違いのバイナリがビルドディレクトリ内で混ざるのを防ぐ為に必要です。</description></item><item><title>DPLL SAT Solver を自作した</title><link>https://kazuk.github.io/kazuk.log/posts/dpll-sat-solver/</link><pubDate>Sun, 05 Sep 2021 10:29:37 +0900</pubDate><guid>https://kazuk.github.io/kazuk.log/posts/dpll-sat-solver/</guid><description>というわけで。（どんなわけで）
+カバレッジプロファイル指定でのビルド プロファイリングオプションを付けてビルドするには基本的には RUSTFLAGS を指定して cargo build するだけです。nightly コンパイラを使うのを考慮すると以下になります。</description></item><item><title>DPLL SAT Solver を自作した</title><link>https://kazuk.github.io/kazuk.log/posts/dpll-sat-solver/</link><pubDate>Sun, 05 Sep 2021 10:29:37 +0900</pubDate><guid>https://kazuk.github.io/kazuk.log/posts/dpll-sat-solver/</guid><description>というわけで。（どんなわけで）
 DPLL アルゴリズムを使った SAT Solver を自作した。
 kazuk/pico-sat
 DIMACS とかその辺のサポートをしてない非常に素朴な実装。
