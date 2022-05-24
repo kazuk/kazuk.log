@@ -21,13 +21,13 @@ rust は単体テストの実行等は cargo に統合されていて非常に�
 
   `grcov` が依存しています。 `rustup component and llvm-tools-preview` でインストールします。
 
-- `Nightly rust`
+- Stable rust (rust 1.60 より stable rust でもカバレッジの採取が可能になりました。) ~~ `Nightly rust` ~~
 
-  プロファイラの為のコンパイルオプションは現状 Nightly rust コンパイラでのみサポートされています。
+  ~~プロファイラの為のコンパイルオプションは現状 Nightly rust コンパイラでのみサポートされています。~~
 
-  `rustup toolchain install nightly` でインストールします。
+  ~~`rustup toolchain install nightly` でインストールします。~~
 
-  Nightlyコンパイラは名前の通り毎晩リリースされ「稀に壊れます」何かうまく行かない等がある場合には `rustup update` でより新しいバージョンを取得してくる、Nightly の最新でうまく行かない場合等は日付指定での Nightly コンパイラへ入れ替える等をしてくる必要があります。 そういう場合には [Working with nightly Rust](https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust) を参考にして下さい。
+  ~~Nightlyコンパイラは名前の通り毎晩リリースされ「稀に壊れます」何かうまく行かない等がある場合には `rustup update` でより新しいバージョンを取得してくる、Nightly の最新でうまく行かない場合等は日付指定での Nightly コンパイラへ入れ替える等をしてくる必要があります。 そういう場合には [Working with nightly Rust](https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust) を参考にして下さい。~~
 
 ## カバレッジ取得の流れ
 
@@ -113,6 +113,12 @@ RUSTUP_TOOLCHAIN="nightly" grcov ./target/cover/debug/deps/profraw/ -b ./target/
 ```
 
 最終的に ./target/lcov.info にカバレッジ情報が出力されます。
+
+## `cargo-make` でのカバレッジビルド
+
+[cargo-make](https://github.com/sagiegurari/cargo-make) は rust 向けのメイクツールで、ビルド及びテストの一連の実行が可能です。
+
+この `cargo-make` 向けの grcov でのカバレッジ採取用の Makefile を [cargo-make-grcov-coverage](https://github.com/kazuk/cargo-make-coverage-grcov)で公開しています。
 
 ## カバレッジ情報をエディタ表示
 
