@@ -1,5 +1,5 @@
 baseURL = 'https://kazuk.github.io/kazuk.log/'
-languageCode = 'ja-jp'
+locale = 'ja-JP'
 title = 'kazuk のメモ書き'
 theme = "hugo-xmin"
 DefaultContentLanguage="ja"
